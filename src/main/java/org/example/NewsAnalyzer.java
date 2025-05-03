@@ -3,20 +3,22 @@ package org.example;
 import org.example.model.NewsItem;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.lang.System.in;
 
 public class NewsAnalyzer {
 
     private static final Set<String> POSITIVE_WORDS = Set.of("up", "rise", "good", "success", "high");
+    private static Stream<String> news = Stream.of("up", "rise", "good", "success", "high");
     public static void main(String[] args) throws IOException {
         int port = 8080;
         ServerSocket serverSocket = new ServerSocket(port);
@@ -45,12 +47,13 @@ public class NewsAnalyzer {
             }
         }
 
-    private final Queue<NewsItem> recentNews = new LinkedList<>();
-
-    String line ;
+        private final Queue<NewsItem> recentNews = new LinkedList<>();
 
 
-    while ((line = in.readLine()) != null) {
+
+        String line ;
+
+    /*while((line!=null) {
             String[] parts = line.split(",");
             String headline = parts[0];
             int priority = Integer.parseInt(parts[1]);
@@ -64,11 +67,12 @@ public class NewsAnalyzer {
                 TimeUnit.SECONDS.sleep(10);
                 summarizeNews(recentNews);
                 recentNews.clear();
-            }catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
 
-        }
+        }*/
+
 
         private static boolean isPositive(String headline) {
             String[] words = headline.split("\s+");
@@ -78,23 +82,26 @@ public class NewsAnalyzer {
                     positiveCount++;
                 }
             }
-            return positiveCount &gt; words.length / 2.0;
+
+            double v = words.length / 2.0;
+            return false;
+           // return ((boolean) positiveCount);
         }
 
 
-        private static void summarizeNews(Queue<NewsItem> recentNews;NewsItem news) {
-            long positiveCount = news.stream().count();
-            List&lt;NewsItem&gt; topThree = news.stream()
-                    .sorted(Comparator.comparingInt(NewsItem::getPriority))
-                    .distinct()
-                    .limit(3)
-                    .collect(Collectors.toList());
+        private static void summarizeNews(Queue queue) {
+
+        List<NewsItem> newsItems;
+            long positiveCount = POSITIVE_WORDS.stream().count();
+
+         //    POSITIVE_WORDS.stream().sorted(Comparator.comparingInt(NewsItem::getPriority)).distinct().limit(3).collect(Collectors.toList());
+
 
             System.out.println("Positive news items in last 10 seconds: " + positiveCount);
-            System.out.println("Top 3 headlines: " + topThree.stream().map(NewsItem::getHeadline).collect(Collectors.joining(", ")));
+           // System.out.println("Top 3 headlines: " + POSITIVE_WORDS.stream().map(NewsItem::getHeadline)).collect(Collectors.joining(", "));
         }
-
-
+    }
+    }
 
 
 

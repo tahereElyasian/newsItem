@@ -7,20 +7,22 @@ import lombok.NoArgsConstructor;
 
 
 public class NewsItem {
-    private String headline;
-    private int priority;
+     String headline;
+     int priority;
 
     public NewsItem(String headline, int priority) {
         this.headline = headline;
         this.priority = priority;
     }
 
-    public int getPriority(){
+    public  int getPriority() {
         return priority;
     }
 
     public String getHeadline(){
         return headline;
     }
+
+
 }
 
